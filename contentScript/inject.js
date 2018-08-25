@@ -1,8 +1,8 @@
 /*
  * @Author: zy9@github.com/zy410419243
  * @Date: 2018-08-03 15:17:37
- * @Last Modified by:   zy9
- * @Last Modified time: 2018-08-03 15:17:37
+ * @Last Modified by: zy9
+ * @Last Modified time: 2018-08-25 21:51:26
  */
 const injectScript = file => {
 	let th = document.getElementsByTagName('body')[0];
@@ -11,6 +11,7 @@ const injectScript = file => {
 
 	s.setAttribute('type', 'text/javascript');
 	s.setAttribute('src', file);
+	// s.setAttribute('id', 'init_window');
 
 	let windowWraper = document.createElement('script');
 
