@@ -59,7 +59,7 @@ const options = {
 	entry: {
 		background: __dirname + '/background',
 		contentScript: __dirname + '/contentScript',
-		popup: __dirname + '/src',
+		// popup: __dirname + '/src',
 		inject: __dirname + '/inject'
 	},
 	output: {
