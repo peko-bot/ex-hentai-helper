@@ -2,18 +2,12 @@
  * @Author: zy9@github.com/zy410419243
  * @Date: 2018-06-08 11:15:23
  * @Last Modified by: zy9
- * @Last Modified time: 2018-08-25 22:42:27
+ * @Last Modified time: 2018-09-22 10:17:40
  */
 import { injectScript } from './inject';
 import { dispatchContentScriptToInject } from '../util/Request';
 
 injectScript(chrome.extension.getURL('/inject.js'));
-
-// const imgWrappers = document.getElementsByClassName('it2');
-
-// for(let item of imgWrappers) {
-// 	console.dir(item.getElementsByTagName('img'));
-// }
 
 window.onload = e => {
 	dispatchContentScriptToInject({ message: 'triggerMouseHover' });
@@ -23,7 +17,6 @@ window.onload = e => {
 document.getElementById('init_window').addEventListener('inject_to_content_script', e => {
 	const { message, url, count, error, status } = e.detail;
 
-	console.log(message);
 	switch (message) {
 		case 'error': // 处理异常
 			console.error(`注入错误：${ error }`);

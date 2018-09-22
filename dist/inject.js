@@ -110,6 +110,51 @@ var _Request = __webpack_require__(/*! ../util/Request */ "./util/Request.js");
 // 	window.open(item.getElementsByTagName('img')[0].src);
 // }
 
+var getPreloadImgParams = function getPreloadImgParams() {
+	var doms = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : document.getElementsByClassName('itd');
+	var callback = arguments[1];
+	var _iteratorNormalCompletion = true;
+	var _didIteratorError = false;
+	var _iteratorError = undefined;
+
+	try {
+		for (var _iterator = Array.from(doms)[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+			var item = _step.value;
+			var onmouseover = item.onmouseover;
+
+
+			if (onmouseover) {
+				var params = onmouseover.toString().split('{')[1].split('}')[0];
+
+				params = params.split('(')[1].split(')')[0];
+
+				preload_pane_image_delayed(params);
+			}
+		}
+	} catch (err) {
+		_didIteratorError = true;
+		_iteratorError = err;
+	} finally {
+		try {
+			if (!_iteratorNormalCompletion && _iterator.return) {
+				_iterator.return();
+			}
+		} finally {
+			if (_didIteratorError) {
+				throw _iteratorError;
+			}
+		}
+	}
+}; /*
+    * @Author: zy9@github.com/zy410419243
+    * @Date: 2018-07-08 09:26:10
+    * @Last Modified by: zy9
+    * @Last Modified time: 2018-09-22 10:46:36
+    */
+
+
+var imgWrappers = void 0;
+
 document.getElementById('init_window').addEventListener('content_script_to_inject', function (e) {
 	try {
 		var _e$detail = e.detail,
@@ -118,10 +163,41 @@ document.getElementById('init_window').addEventListener('content_script_to_injec
 		    url = _e$detail.url;
 
 
-		(0, _Request.dispatchInjectToContentScript)({ message: 'error', error: 'test' });
 		switch (message) {
 			case 'triggerMouseHover':
-				console.log(preload_pane_image_delayed);
+				getPreloadImgParams(document.getElementsByClassName('itd'));
+
+				setTimeout(function () {
+					imgWrappers = Array.from(document.getElementsByClassName('it2'));
+
+					var _iteratorNormalCompletion2 = true;
+					var _didIteratorError2 = false;
+					var _iteratorError2 = undefined;
+
+					try {
+						for (var _iterator2 = imgWrappers[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+							var item = _step2.value;
+
+							var src = item.firstChild.src;
+
+							console.log(src);
+						}
+					} catch (err) {
+						_didIteratorError2 = true;
+						_iteratorError2 = err;
+					} finally {
+						try {
+							if (!_iteratorNormalCompletion2 && _iterator2.return) {
+								_iterator2.return();
+							}
+						} finally {
+							if (_didIteratorError2) {
+								throw _iteratorError2;
+							}
+						}
+					}
+				}, 1000);
+
 				break;
 
 			default:
@@ -131,12 +207,7 @@ document.getElementById('init_window').addEventListener('content_script_to_injec
 	} catch (error) {
 		(0, _Request.dispatchInjectToContentScript)({ message: 'error', error: error });
 	}
-}); /*
-     * @Author: zy9@github.com/zy410419243
-     * @Date: 2018-07-08 09:26:10
-     * @Last Modified by: zy9
-     * @Last Modified time: 2018-08-25 22:42:02
-     */
+});
 
 /***/ }),
 
