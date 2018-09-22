@@ -2,7 +2,7 @@
  * @Author: zy9@github.com/zy410419243
  * @Date: 2018-07-08 09:26:10
  * @Last Modified by: zy9
- * @Last Modified time: 2018-09-22 11:27:05
+ * @Last Modified time: 2018-09-22 12:52:21
  */
 import { dispatchInjectToContentScript } from '../util/Request';
 
