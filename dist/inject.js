@@ -96,19 +96,15 @@
 "use strict";
 
 
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }(); /*
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          * @Author: zy9@github.com/zy410419243
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          * @Date: 2018-07-08 09:26:10
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          * @Last Modified by: zy9
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          * @Last Modified time: 2018-09-22 11:27:05
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          */
+
+
 var _Request = __webpack_require__(/*! ../util/Request */ "./util/Request.js");
-
-// show_image_pane(1276701);
-// const hrefs = document.getElementsByClassName('it5');
-// const imgWrappers = document.getElementsByClassName('it2');
-
-// for(let item of hrefs) {
-// 	item.getElementsByTagName('a')[0].onmouseover();
-// }
-
-// for(let item of imgWrappers) {
-// 	window.open(item.getElementsByTagName('img')[0].src);
-// }
 
 var getPreloadImgParams = function getPreloadImgParams() {
 	var doms = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : document.getElementsByClassName('itd');
@@ -128,7 +124,15 @@ var getPreloadImgParams = function getPreloadImgParams() {
 
 				params = params.split('(')[1].split(')')[0];
 
-				preload_pane_image_delayed(params);
+				var _params$split = params.split(','),
+				    _params$split2 = _slicedToArray(_params$split, 3),
+				    a = _params$split2[0],
+				    b = _params$split2[1],
+				    c = _params$split2[2];
+
+				load_pane_image(document.getElementById('i' + c));
+				load_pane_image(document.getElementById('i' + b));
+				load_pane_image(document.getElementById('i' + a));
 			}
 		}
 	} catch (err) {
@@ -145,15 +149,11 @@ var getPreloadImgParams = function getPreloadImgParams() {
 			}
 		}
 	}
-}; /*
-    * @Author: zy9@github.com/zy410419243
-    * @Date: 2018-07-08 09:26:10
-    * @Last Modified by: zy9
-    * @Last Modified time: 2018-09-22 10:46:36
-    */
+};
 
-
-var imgWrappers = void 0;
+var srcs = [],
+    hrefs = [],
+    imgInfos = [];
 
 document.getElementById('init_window').addEventListener('content_script_to_inject', function (e) {
 	try {
@@ -165,38 +165,22 @@ document.getElementById('init_window').addEventListener('content_script_to_injec
 
 		switch (message) {
 			case 'triggerMouseHover':
+				// 模拟鼠标移入事件获得缩略图图片地址和链接地址
 				getPreloadImgParams(document.getElementsByClassName('itd'));
 
-				setTimeout(function () {
-					imgWrappers = Array.from(document.getElementsByClassName('it2'));
+				srcs = Array.from(document.getElementsByClassName('it2'));
+				hrefs = Array.from(document.getElementsByClassName('it5'));
 
-					var _iteratorNormalCompletion2 = true;
-					var _didIteratorError2 = false;
-					var _iteratorError2 = undefined;
+				for (var i = 0, len = srcs.length; i < len; i++) {
+					var ins = {
+						src: srcs[i].firstChild.src,
+						href: hrefs[i].firstChild.href
+					};
 
-					try {
-						for (var _iterator2 = imgWrappers[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-							var item = _step2.value;
+					imgInfos.push(ins);
+				}
 
-							var src = item.firstChild.src;
-
-							console.log(src);
-						}
-					} catch (err) {
-						_didIteratorError2 = true;
-						_iteratorError2 = err;
-					} finally {
-						try {
-							if (!_iteratorNormalCompletion2 && _iterator2.return) {
-								_iterator2.return();
-							}
-						} finally {
-							if (_didIteratorError2) {
-								throw _iteratorError2;
-							}
-						}
-					}
-				}, 1000);
+				(0, _Request.dispatchInjectToContentScript)({ message: 'doGetImgInfos', data: imgInfos });
 
 				break;
 

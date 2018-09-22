@@ -104,7 +104,7 @@ var _Request = __webpack_require__(/*! ../util/Request */ "./util/Request.js");
  * @Author: zy9@github.com/zy410419243
  * @Date: 2018-06-08 11:15:23
  * @Last Modified by: zy9
- * @Last Modified time: 2018-09-22 10:17:40
+ * @Last Modified time: 2018-09-22 11:36:52
  */
 (0, _inject.injectScript)(chrome.extension.getURL('/inject.js'));
 
@@ -112,20 +112,68 @@ window.onload = function (e) {
 	(0, _Request.dispatchContentScriptToInject)({ message: 'triggerMouseHover' });
 };
 
+var child = void 0,
+    imgHTML = '';
+
 // 用作接收inject返回的值
 document.getElementById('init_window').addEventListener('inject_to_content_script', function (e) {
 	var _e$detail = e.detail,
 	    message = _e$detail.message,
-	    url = _e$detail.url,
-	    count = _e$detail.count,
 	    error = _e$detail.error,
-	    status = _e$detail.status;
+	    data = _e$detail.data;
 
 
 	switch (message) {
+		case 'doGetImgInfos':
+			// 加入遮罩层显示图片
+			// eslint-disable-next-line
+			child = document.createElement('div');
+			child.style.position = 'absolute';
+			child.style.zIndex = 100;
+			child.style.width = '100%';
+			child.style.height = '100%';
+			child.style.top = '0px';
+			child.style.left = '0px';
+			child.style.background = '#CADFF2';
+
+			var _iteratorNormalCompletion = true;
+			var _didIteratorError = false;
+			var _iteratorError = undefined;
+
+			try {
+				for (var _iterator = data[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+					var item = _step.value;
+					var src = item.src,
+					    href = item.href;
+
+
+					imgHTML += '\n\t\t\t\t\t<img src=\'' + src + '\' onclick=\'window.open("' + href + '?show=false")\' style=\'float: left; width: 33%:\' />\n\t\t\t\t';
+				}
+			} catch (err) {
+				_didIteratorError = true;
+				_iteratorError = err;
+			} finally {
+				try {
+					if (!_iteratorNormalCompletion && _iterator.return) {
+						_iterator.return();
+					}
+				} finally {
+					if (_didIteratorError) {
+						throw _iteratorError;
+					}
+				}
+			}
+
+			child.innerHTML = '\n\t\t\t\t<div style=\'width: 100%;\'>\n\t\t\t\t\t' + imgHTML + '\n\t\t\t\t</div>\n\t\t\t';
+
+			document.body.appendChild(child);
+
+			break;
+
 		case 'error':
 			// 处理异常
 			console.error('\u6CE8\u5165\u9519\u8BEF\uFF1A' + error);
+
 			break;
 
 		default:
