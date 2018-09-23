@@ -1,2 +1,2 @@
 # ex-hentai-helper
-A plugin of ex-hentai, for download, improving experience of reading.
+WTF，原来ex自带缩略图模式，火星害死人...
