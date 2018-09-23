@@ -1,0 +1,17 @@
+.PageTurn .turn-wrapper {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index: 101;
+    height: 100px;
+    background: #F96;
+    opacity: 0.7;
+    cursor: crosshair;
+    width: 100%;
+}
+
+.PageTurn .turn-wrapper .turn-button {
+    float: left;
+    width: 50%;
+    height: 100%;
+}

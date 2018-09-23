@@ -2,15 +2,16 @@
  * @Author: zy9@github.com/zy410419243
  * @Date: 2018-09-23 10:05:00
  * @Last Modified by: zy9
- * @Last Modified time: 2018-09-23 11:11:01
+ * @Last Modified time: 2018-09-23 11:32:25
  */
 import React, { Component } from 'react';
 
 import ImgDisplay from './imgDisplay';
+import PageTurn from './PageTurn';
 
 import { Modal } from 'antd';
 
-import { GetParams, EditParam } from '../../../util/GetParams';
+import { GetParams } from '../../../util/GetParams';
 
 import './css/Wrapper.css';
 
@@ -34,42 +35,6 @@ export default class Wrapper extends Component {
     		switch (message) {
     			case 'doGetImgInfos': // 加入遮罩层显示图片
     				JSON.parse(GetParams('show') || null) && this.setState({ imgDatas: data });
-    				// if (flag) {
-    				// 	child = document.createElement('div');
-    				// 	child.style.position = 'absolute';
-    				// 	child.style.zIndex = 100;
-    				// 	child.style.width = '100%';
-    				// 	child.style.top = '0px';
-    				// 	child.style.left = '0px';
-    				// 	child.style.background = '#CADFF2';
-
-    				// 	for (let item of data) {
-    				// 		const { src, href } = item;
-
-    				// 		imgHTML += `
-    				//             <div style='float: left; width: 20%;'>
-    				//                 <img src='${ src}' style='height: 376px; width: 100%; cursor: pointer;' onclick='window.open("${href}?show=false")' />
-    				//             </div>
-    				//         `;
-    				// 	}
-
-    				// 	child.innerHTML = imgHTML + `
-    				//         <div style='position: fixed; bottom: 0; left: 0; z-index: 101; height: 100px; background: #F96; opacity: 0.7; cursor: crosshair; width: 100%;'>
-    				//             <div style='float: left; width: 50%; height: 100%;' id='toLast'></div>
-    				//             <div style='float: left; width: 50%; height: 100%;' id='toNext'></div>
-    				//         </div>
-    				//     `;
-
-    				// 	document.body.appendChild(child);
-
-    				// 	eventBind(document.getElementById('toLast'), () => {
-    				// 		handlePageTurn(-1);
-    				// 	});
-
-    				// 	eventBind(document.getElementById('toNext'), () => {
-    				// 		handlePageTurn(1);
-    				// 	});
-    				// }
 
     				break;
 
@@ -110,6 +75,8 @@ export default class Wrapper extends Component {
     		<div className='Wrapper'>
     			<Modal { ...modalProps }>
     			    <ImgDisplay dataSource={ imgDatas } />
+
+    				{ visible && <PageTurn /> }
     			</Modal>
     		</div>
     	);
