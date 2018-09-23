@@ -2,7 +2,7 @@
  * @Author: zy9@github.com/zy410419243
  * @Date: 2018-05-20 13:48:08
  * @Last Modified by: zy9
- * @Last Modified time: 2018-07-25 11:14:39
+ * @Last Modified time: 2018-09-23 10:01:11
  */
 const webpack = require('webpack');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
@@ -59,13 +59,13 @@ const options = {
 	entry: {
 		background: __dirname + '/background',
 		contentScript: __dirname + '/contentScript',
-		// popup: __dirname + '/src',
+		main: __dirname + '/src',
 		inject: __dirname + '/inject'
 	},
 	output: {
 		path: __dirname + '/dist',
 		filename: '[name].js',
-		chunkFilename: dev ? 'vendor/[name].[chunkHash:8].js' : 'vendor/[name].js'
+		chunkFilename: dev ? 'main/vendor/[name].[chunkHash:8].js' : 'main/vendor/[name].js'
 	},
 	plugins,
 	module: commonModule

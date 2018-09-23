@@ -2,13 +2,13 @@
  * @Author: zy9@github.com/zy410419243
  * @Date: 2018-06-08 11:15:23
  * @Last Modified by: zy9
- * @Last Modified time: 2018-09-22 12:59:26
+ * @Last Modified time: 2018-09-23 10:01:43
  */
 import { injectScript } from './inject';
 import { dispatchContentScriptToInject } from '../util/Request';
 import { GetParams, EditParam } from '../util/GetParams';
 
-injectScript(chrome.extension.getURL('/inject.js'));
+injectScript(chrome.extension.getURL('/inject.js'), chrome.extension.getURL('/main.js'));
 
 window.onload = e => {
 	dispatchContentScriptToInject({ message: 'triggerMouseHover' });
@@ -33,7 +33,7 @@ document.getElementById('init_window').addEventListener('inject_to_content_scrip
 	switch (message) {
 		case 'doGetImgInfos': // 加入遮罩层显示图片
 			// eslint-disable-next-line
-			const flag = JSON.parse(GetParams('show'));
+			const flag = JSON.parse(GetParams('show') || null);
 
 			if (flag) {
 				child = document.createElement('div');
