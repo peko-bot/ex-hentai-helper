@@ -2,11 +2,11 @@
  * @Author: zy9@github.com/zy410419243
  * @Date: 2018-07-31 09:42:48
  * @Last Modified by: zy9
- * @Last Modified time: 2018-09-22 12:44:58
+ * @Last Modified time: 2018-09-23 10:37:31
  */
 export const GetParams = name => {
 	let reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)'); // 匹配目标参数
-	let result = window.location.search.split('?').length > 1 ? window.location.search.split('?')[1].match(reg) : 0; // 对querystring匹配目标参数
+	let result = window.location.href.split('?').length > 1 ? window.location.href.split('?')[1].match(reg) : 0; // 对querystring匹配目标参数
 
 	if (result != null) {
 		return result[2] === 'undefined' ? undefined : result[2];

@@ -1,0 +1,10 @@
+.imgDisplay .img-wrapper {
+    float: left;
+    width: 20%;
+}
+
+.imgDisplay .img-wrapper img{
+    width: 100%;
+    height: 376px;
+    cursor: pointer;
+}
